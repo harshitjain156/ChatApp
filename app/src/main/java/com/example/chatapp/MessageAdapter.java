@@ -15,11 +15,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MessageAdapte extends RecyclerView.Adapter<MessageAdapte.MyViewHolder> {
+public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHolder> {
     private Context context;
     private List<MessageModel> messageList;
 
-    public MessageAdapte(Context context) {
+    public MessageAdapter(Context context) {
         this.context = context;
         messageList =new ArrayList<>();
     }
@@ -34,21 +34,24 @@ public class MessageAdapte extends RecyclerView.Adapter<MessageAdapte.MyViewHold
 
     @NonNull
     @Override
-    public MessageAdapte.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MessageAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(context).inflate(R.layout.message_layout,parent,false);
         return new MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MessageAdapte.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MessageAdapter.MyViewHolder holder, int position) {
         holder.username.setText(messageList.get(position).getMessage().toString());
         if (messageList.get(position).getSenderId().equals(FirebaseAuth.getInstance().getUid())){
             holder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.teal_200));
             holder.username.setTextColor(context.getResources().getColor(R.color.white));
+            holder.username.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+
         }
         else {
             holder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.black));
             holder.username.setTextColor(context.getResources().getColor(R.color.white));
+            holder.username.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
 
         }
     }

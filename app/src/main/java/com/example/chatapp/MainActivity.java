@@ -20,26 +20,26 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
     DatabaseReference databaseReference;
-    USerAdapter uSerAdapter;
+    USerAdapter userAdapter;
     RecyclerView recyclerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        uSerAdapter=new USerAdapter(this);
+        userAdapter =new USerAdapter(this);
         recyclerView=findViewById(R.id.recycleview);
-        recyclerView.setAdapter(uSerAdapter);
+        recyclerView.setAdapter(userAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         databaseReference= FirebaseDatabase.getInstance().getReference("users");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                uSerAdapter.clear();
+                userAdapter.clear();
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()){
                     String uid=dataSnapshot.getKey();
                     if (!uid.equals(FirebaseAuth.getInstance().getUid())){
                         UserModel userModel=dataSnapshot.getValue(UserModel.class);
-                        uSerAdapter.add(userModel);
+                        userAdapter.add(userModel);
                     }
 
                 }

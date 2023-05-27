@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -26,7 +25,7 @@ public class ChatActivity extends AppCompatActivity {
     DatabaseReference databaseReferenceReceiver;
 
     String senderRoom,receiverRoom;
-    MessageAdapte messageAdapte;
+    MessageAdapter messageAdapte;
     RecyclerView recyclerView;
     Button send;
     EditText msg;
@@ -35,7 +34,7 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         receiverId=getIntent().getStringExtra("id");
-        messageAdapte=new MessageAdapte(this);
+        messageAdapte=new MessageAdapter(this);
         send=findViewById(R.id.sendmsg);
         recyclerView=findViewById(R.id.recycleviewChat);
         msg=findViewById(R.id.msg);
@@ -66,8 +65,10 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String message=msg.getText().toString();
+                msg.setText("");
                 if (message.trim().length()>0){
                     sendMessage(message);
+
                 }
             }
         });

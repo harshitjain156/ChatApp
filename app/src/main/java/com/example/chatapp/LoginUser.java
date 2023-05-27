@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -19,7 +20,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginUser extends AppCompatActivity {
     EditText username,email,password;
-    Button login,signup;
+    Button login;
+    TextView signup;
     String Email,Username,Password;
     DatabaseReference databaseReference;
     @Override
@@ -27,16 +29,16 @@ public class LoginUser extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_user);
         databaseReference= FirebaseDatabase.getInstance().getReference("users");
-        username=findViewById(R.id.username);
-        email=findViewById(R.id.email);
-        password=findViewById(R.id.password);
-        login=findViewById(R.id.login);
-        signup=findViewById(R.id.signUp);
+//        username=findViewById(R.id.);
+        email=findViewById(R.id.SignInEmail);
+        password=findViewById(R.id.SignInPassword);
+        login=findViewById(R.id.SignInButton);
+        signup=findViewById(R.id.SignInToSignUp);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Email=email.getText().toString();
-                Username=username.getText().toString();
+//                Username=username.getText().toString();
                 Password=password.getText().toString();
                 login();
             }
@@ -44,31 +46,30 @@ public class LoginUser extends AppCompatActivity {
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Email=email.getText().toString();
-                Username=username.getText().toString();
-                Password=password.getText().toString();
-                signUp();
+                Intent intent=new Intent(LoginUser.this,SignUp.class);
+                startActivity(intent);
             }
         });
     }
 
-    private void signUp() {
-        FirebaseAuth
-                .getInstance()
-                .signInWithEmailAndPassword(Email.trim(),Password)
-                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                    @Override
-                    public void onSuccess(AuthResult authResult) {
-                        Toast.makeText(LoginUser.this, ""+authResult.toString(), Toast.LENGTH_SHORT).show();
-
-                        UserModel userModel=new UserModel(FirebaseAuth.getInstance().getUid(),Username,Email,Password);
-                        databaseReference.child(FirebaseAuth.getInstance().getUid()).setValue(userModel);
-                        startActivity(new Intent(LoginUser.this,MainActivity.class));
-                        finish();
-                    }
-                });
-
-    }
+//    private void signUp() {
+//        FirebaseAuth
+//                .getInstance()
+//                .signInWithEmailAndPassword(Email.trim(),Password)
+//                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+//                    @Override
+//                    public void onSuccess(AuthResult authResult) {
+//                        Toast.makeText(LoginUser.this, ""+authResult.toString(), Toast.LENGTH_SHORT).show();
+//
+//                        UserModel userModel=new UserModel(FirebaseAuth.getInstance().getUid(),Username,Email,Password);
+//                        databaseReference.child(FirebaseAuth.getInstance().getUid()).setValue(userModel);
+//                        startActivity(new Intent(LoginUser.this,MainActivity.class));
+//                        finish();
+//                    }
+//                });
+//
+//
+//    }
 
     private void login() {
         FirebaseAuth
